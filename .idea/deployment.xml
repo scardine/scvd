@@ -5,7 +5,7 @@
       <paths name="jasmil">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/paulos/app/scvd" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="app/scvd" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

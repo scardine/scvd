@@ -11,9 +11,9 @@ from django.db import models
 
 
 class Dado(models.Model):
-    localidade_id = models.ForeignKey('scvd.models.Localidade', blank=True, null=True)
+    localidade_id = models.ForeignKey('Localidade', blank=True, null=True)
     localidade_descricao = models.CharField(max_length=250, blank=True, null=True)
-    indicador_id = models.ForeignKey('scvd.models.Indicador')
+    indicador_id = models.ForeignKey('Indicador')
     indicadorid_alfa = models.CharField(max_length=50, blank=True, null=True)
     ano = models.TextField(blank=True, null=True)  # This field type is a guess.
     dado_valor = models.CharField(max_length=50, blank=True, null=True)
@@ -26,6 +26,9 @@ class Dado(models.Model):
 class Fonte(models.Model):
     fonte_id = models.BigAutoField(primary_key=True)
     fonte_descricao = models.CharField(max_length=250, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.fonte_descricao
 
     class Meta:
         managed = False
@@ -48,7 +51,7 @@ class Indicador(models.Model):
     indicador_periodo = models.CharField(max_length=50, blank=True, null=True)
     indicador_descricao = models.CharField(max_length=250, blank=True, null=True)
     indicador_observacao = models.CharField(max_length=250, blank=True, null=True)
-    temas = models.ManyToManyField('Tema', through='scvd.models.TemaIndicador')
+    temas = models.ManyToManyField('Tema', through='TemaIndicador')
     fontes = models.ManyToManyField('Fonte', through='IndicadorFonte')
 
     class Meta:
@@ -82,7 +85,7 @@ class Localidade(models.Model):
 class Mapa(models.Model):
     localidade_id = models.ForeignKey(Localidade)
     localidade_descricao = models.CharField(max_length=250)
-    tipoloc_id = models.ForeignKey('scvd.models.TipoLoc')
+    tipoloc_id = models.ForeignKey('TipoLoc')
     localidadetopojson = models.CharField(db_column='localidadeTopoJson', max_length=50, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
@@ -98,6 +101,9 @@ class Tema(models.Model):
     class Meta:
         managed = False
         db_table = 'appind_tema'
+
+    def __unicode__(self):
+        return self.tema_descricao
 
 
 class TemaIndicador(models.Model):
@@ -144,8 +150,8 @@ class FluxoTbDados(models.Model):
     fluxo_id = models.BigAutoField(primary_key=True)
     indicador_id = models.ForeignKey(Indicador, blank=True, null=True)
     ano = models.BigIntegerField(blank=True, null=True)
-    localidade_origem = models.ForeignKey(Localidade, blank=True, null=True)
-    localidade_destino = models.ForeignKey(Localidade, blank=True, null=True)
+    localidade_origem = models.ForeignKey(Localidade, blank=True, null=True, related_name='origens')
+    localidade_destino = models.ForeignKey(Localidade, blank=True, null=True, related_name='destinos')
     dado_valor = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
