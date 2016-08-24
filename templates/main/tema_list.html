@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Temas</h1>
+        <table class="table table-responsive table-striped">
+            <thead>
+            <tr>
+                <th>Código</th>
+                <th>Tema</th>
+                <th>Quantidade de Indicadores</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <td class="text-right"><a href="{% url 'tema-detail' pk=object.pk %}{{ object.tema_descricao|slugify }}">{{ object.pk }}</a></td>
+                    <td>{{ object.tema_descricao|truncatewords:15 }}</td>
+                    <td>{{ object.indicador_set.count|default:'-' }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

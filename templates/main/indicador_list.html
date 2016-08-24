@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Indicadores</h1>
+        <table class="table table-responsive table-striped">
+            <thead>
+            <tr>
+                <th>Código</th>
+                <th>Indicador</th>
+                <th>Período</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <td class="text-right"><a href="{% url 'indicador-detail' pk=object.pk %}{{ object.indicador_nome|slugify }}">{{ object.indicador_id }}</a></td>
+                    <td>{{ object.indicador_nome|truncatewords:15 }}</td>
+                    <td>{{ object.indicador_periodo|default:'N/A' }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from main import views as main_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', main_views.Index.as_view(), name='home'),
+    url(r'^tema/$', main_views.TemaList.as_view(), name='tema-list'),
+    url(r'^tema/(?P<pk>\d+)/', main_views.TemaDetail.as_view(), name='tema-detail'),
+    url(r'^indicadores/$', main_views.IndicadorList.as_view(), name='indicador-list'),
+    url(r'^indicadores/(?P<pk>\d+)/', main_views.IndicadorDetail.as_view(), name='indicador-detail'),
 ]

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+    <h1>{{ object.indicador_nome }}</h1>
+    <p>{{ object.indicador_descricao|default:'-' }}</p>
+    <p><b>Fontes:</b>
+        {% for fonte in object.fontes.all %}
+            {{ fonte.fonte_descricao }}
+        {% endfor %}
+    </p>
+    <p><b>Temas:</b>
+        {% for tema in object.temas.all %}
+            {{ tema.tema_descricao }}
+        {% endfor %}
+    </p>
+    <p><b>Observações:</b> {{ object.indicador_observacao|default:'-' }}</p>
+    <p><b>Períodos:</b> {{ object.indicador_periodo|default:'N/A' }}</p>
+    <h2>Dados</h2>
+    <table class="table table-responsive table-striped">
+        <thead>
+        <tr>
+            <th>Localidade</th>
+            <th>Período</th>
+            <th>Valor</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for dado in object.dado_set.all %}
+            <tr>
+                <td>{{ dado.localidade_descricao }}</td>
+                <td>{{ dado.ano }}</td>
+                <td class="text-right">{{ dado.dado_valor }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    </div>
+{% endblock %}
